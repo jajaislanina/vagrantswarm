@@ -1,0 +1,39 @@
+  - name: Install packages that allow apt to be used over HTTPS
+    apt:
+      name: "{{ apt_packages }}"
+      state: present
+      update_cache: yes
+
+  - name: Add an apt signing key for Docker
+    apt_key:
+      url: "{{ docker_pgp_key }}"
+      state: present
+
+  - name: Add apt repository for stable version
+    apt_repository:
+      repo: deb [arch=amd64] {{ docker_apt_reposity }}
+      state: present
+
+  - name: Install docker and its dependecies
+    apt: 
+      name: "{{ docker_packages }}"
+      state: present
+      update_cache: yes
+    notify:
+      - docker status
+
+  - name: Add vagrant user to docker group
+    user:
+      name: vagrant
+      group: docker
+  
+  - name: Remove swapfile from /etc/fstab
+    mount:
+      name: "{{ item }}"
+      fstype: swap
+      state: absent
+    with_items: "{{ swap_items }}"
+
+  - name: Disable swap
+    command: swapoff -a
+    when: ansible_swaptotal_mb > 0

@@ -1,0 +1,5 @@
+  apt_packages: ["apt-transport-https", "ca-certificates", "curl", "software-properties-common", "gnupg-agent"]
+  docker_pgp_key: "https://download.docker.com/linux/ubuntu/gpg"
+  docker_apt_reposity: https://download.docker.com/linux/ubuntu xenial stable
+  docker_packages: ["docker-ce","docker-ce-cli","containerd.io"]
+  swap_items: ["swap","none"]

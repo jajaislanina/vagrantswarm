@@ -1,0 +1,4 @@
+- name: docker
+  hosts: localhost
+  roles:
+    - docker
